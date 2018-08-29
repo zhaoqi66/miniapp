@@ -1,5 +1,4 @@
-### 本项目为weixin-java-tools的Demo演示程序，基于Spring Boot构建，实现微信小程序后端开发功能。
-更多信息请查阅：https://github.com/Wechat-Group/weixin-java-tools
+https://github.com/Wechat-Group/weixin-java-tools
 
 [![Build Status](https://travis-ci.org/binarywang/weixin-java-miniapp-demo.svg?branch=master)](https://travis-ci.org/binarywang/weixin-java-miniapp-demo)
 -----------------------
