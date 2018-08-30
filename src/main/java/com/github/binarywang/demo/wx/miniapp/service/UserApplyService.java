@@ -1,0 +1,26 @@
+package com.github.binarywang.demo.wx.miniapp.service;
+
+import com.github.binarywang.demo.wx.miniapp.controller.vm.UserApplyDetailVm;
+import com.github.binarywang.demo.wx.miniapp.controller.vm.UserVoteAddVm;
+import com.github.binarywang.demo.wx.miniapp.serviceImpl.dto.UserApplyDTO;
+
+import java.util.List;
+
+/**
+ * UserApplyService
+ *
+ * @author LT
+ * @date 2018/8/29 16:11
+ */
+public interface UserApplyService {
+
+    void addUserVote(UserVoteAddVm vm);
+
+    List<UserApplyDTO> getOneVote(UserApplyDetailVm vm);
+
+    void deleteUserApply(Long id);
+
+    List<UserApplyDTO> findAllOrRank();
+
+    List<UserApplyDTO> findByReviewTime();
+}
