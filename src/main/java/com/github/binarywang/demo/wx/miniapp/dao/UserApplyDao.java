@@ -15,7 +15,7 @@ import java.util.List;
  * @date 2018/8/29 16:09
  */
 @Repository
-public interface UserApplyDao extends JpaSpecificationExecutor<UserApply>,JpaRepository<UserApply,Long> {
+public interface UserApplyDao extends JpaSpecificationExecutor<UserApply>,JpaRepository<UserApply,Integer> {
 
     UserApply findByOpenId(@Param("openId")String openId);
 

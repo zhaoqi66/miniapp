@@ -16,7 +16,7 @@ import lombok.Data;
 public class UserApplyDTO {
 
     @ApiModelProperty(value = "活动报名表主键")
-    private Long id;
+    private int id;
 
     @ApiModelProperty(value = "活动参与者姓名")
     private String name;

@@ -44,4 +44,8 @@ public class UserVoteAddVm {
     @NotNull(message = "注册用户id必填")
     private String openId;
 
+    @ApiModelProperty(value = "手机验证码")
+    @NotNull(message = "手机验证码必填")
+    private String code;
+
 }

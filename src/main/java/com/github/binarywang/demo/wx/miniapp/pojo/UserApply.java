@@ -31,7 +31,7 @@ public class UserApply implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", unique = true)
-    private long id;
+    private int id;
 
     @Column(name = "name", columnDefinition = "VARCHAR(16) COMMENT'活动参与者姓名'")
     private String name;

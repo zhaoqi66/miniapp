@@ -15,7 +15,7 @@ import lombok.Data;
 public class UserApplyDetailVm {
 
     @ApiModelProperty(value = "主键id")
-    private long id;
+    private int id;
 
     @ApiModelProperty(value = "选手姓名")
     private String name;
