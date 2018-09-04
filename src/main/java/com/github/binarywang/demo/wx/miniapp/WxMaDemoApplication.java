@@ -14,4 +14,6 @@ public class WxMaDemoApplication {
     public static void main(String[] args) {
         SpringApplication.run(WxMaDemoApplication.class, args);
     }
+
+
 }

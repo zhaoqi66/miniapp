@@ -4,6 +4,8 @@ import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
+import com.github.binarywang.demo.wx.miniapp.pojo.VoteUser;
+import com.github.binarywang.demo.wx.miniapp.service.VoteUserService;
 import com.github.binarywang.demo.wx.miniapp.utils.JsonUtils;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import sun.awt.image.URLImageSource;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,6 +45,9 @@ public class WxMaUserController {
 
     }
 
+
+    @Autowired
+    private VoteUserService voteUserService;
     /**
      * 登陆接口
      */
@@ -55,7 +61,19 @@ public class WxMaUserController {
             WxMaJscode2SessionResult session = this.wxService.getUserService().getSessionInfo(code);
             this.logger.info(session.getSessionKey());
             this.logger.info(session.getOpenid());
+
             //TODO 可以增加自己的逻辑，关联业务相关数据
+            int i =voteUserService.findOneByOpenid(session.getOpenid());
+            if (i !=1){
+                return JsonUtils.toJson(session);
+            }else {
+                VoteUser user = new VoteUser();
+                user.setOpenid(session.getOpenid());
+                user.setFree_tickets(1);
+                user.setTickets(0);
+                user.setStartTime(new Date());
+                voteUserService.save(user);
+            }
             return JsonUtils.toJson(session);
         } catch (WxErrorException e) {
             this.logger.error(e.getMessage(), e);
