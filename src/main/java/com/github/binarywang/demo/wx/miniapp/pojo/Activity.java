@@ -20,7 +20,7 @@ import java.util.Date;
  * @date 2018/8/28 15:06
  */
 @Entity
-@Table(name = "activity")
+@Table(name = "sys_activity")
 @Data
 @Builder
 @NoArgsConstructor

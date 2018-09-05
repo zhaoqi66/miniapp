@@ -29,4 +29,10 @@ public class VoteUserServiceImpl implements VoteUserService {
         return voteUserDao.findOneByOpenid(openid);
     }
 
+    @Override
+    public void deleteFreeTicketTask() {
+        //查询免费票数大于1的投票用户
+//        voteUserDao.findByFreeTickets()
+    }
+
 }

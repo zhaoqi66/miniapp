@@ -15,8 +15,6 @@ import java.util.List;
  */
 public interface UserApplyService {
 
-    void getPhoneCode(String phone);
-
     void addUserVote(UserVoteAddVm vm);
 
     List<UserApplyDTO> getOneVote(UserApplyDetailVm vm);

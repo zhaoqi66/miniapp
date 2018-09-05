@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +24,6 @@ import java.util.List;
 
 /**
  * UserVoteController
- * api:报名时获取手机号验证码 /miniApi/apply/phoneCode post
  * api:我要报名接口  /miniApi/apply/add post
  * api:报名详情接口 和 投票首页 搜索框中 请输入姓名和编号接口 /miniApi/apply/findUserApply get
  * api:取消报名接口   /miniApi/apply/cancel delete
@@ -44,14 +42,6 @@ public class UserApplyController {
     @Autowired
     private UserApplyService userApplyService;
 
-    @PostMapping("/apply/phoneCode")
-    @ApiOperation(value = "报名时获取手机号验证码")
-    public ResponseModel getPhoneCode(String phone) {
-        logger.info("报名时获取手机号验证码 phone={}",phone);
-        userApplyService.getPhoneCode(phone);
-        return ResponseModels.ok();
-
-    }
 
     @PutMapping("/apply/add")
     @ApiOperation(value = "我要报名接口")

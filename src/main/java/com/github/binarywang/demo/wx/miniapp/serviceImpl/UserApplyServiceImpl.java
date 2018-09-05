@@ -1,6 +1,5 @@
 package com.github.binarywang.demo.wx.miniapp.serviceImpl;
 
-import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.github.binarywang.demo.wx.miniapp.config.BusinessException;
 import com.github.binarywang.demo.wx.miniapp.controller.vm.UserApplyDetailVm;
 import com.github.binarywang.demo.wx.miniapp.controller.vm.UserVoteAddVm;
@@ -13,15 +12,12 @@ import com.github.binarywang.demo.wx.miniapp.service.UserApplyService;
 import com.github.binarywang.demo.wx.miniapp.serviceImpl.dto.UserApplyDTO;
 import com.github.binarywang.demo.wx.miniapp.utils.AliyunOSSUtil;
 import com.github.binarywang.demo.wx.miniapp.utils.RedisUtil;
-import com.github.binarywang.demo.wx.miniapp.utils.SendSms;
-import com.github.binarywang.demo.wx.miniapp.utils.SendSmsReq;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -45,43 +41,6 @@ public class UserApplyServiceImpl implements UserApplyService {
 
     @Autowired
     private ActivityDao activityDao;
-
-    @Override
-    public void getPhoneCode(String phone) {
-        if (phone == null) {
-            throw new BusinessException("注册手机号码不能为空");
-        }
-        //创建验证码并在Redis中缓存
-        PhoneCode phoneCode = redisUtil.createPhoneCode("register", phone, new BigDecimal("5").longValue());
-        //发送手机验证码
-        SendSmsReq req = new SendSmsReq(phone, SendSmsReq.SIGN_NAME, SendSmsReq.REGISTER_TEMPLATE_CODE,
-                "{\"code\":\"" + phoneCode.getCode() + "\"}");
-
-        try {
-            SendSmsResponse response = SendSms.send(req);
-            log.info("老师注册验证码短信接口返回的数据----------------");
-            log.info("Code=" + response.getCode());
-            log.info("Message=" + response.getMessage());
-            log.info("RequestId=" + response.getRequestId());
-            log.info("BizId=" + response.getBizId());
-            if (!"OK".equals(response.getCode())) {
-                //发送短信异常，删除对应的redis中的验证码
-                redisUtil.remove(phoneCode.getPhoneCodeId());
-                log.error("请联系管理员，老师注册短信发送调用短信接口异常,错误码Code：" +
-                        response.getCode() + "；错误提示Message：" + response.getMessage());
-                throw new IllegalArgumentException("请联系管理员，老师注册短信发送调用短信接口异常,错误码Code：" +
-                        response.getCode() + "；错误提示Message：" + response.getMessage());
-            }
-        } catch (Exception e) {
-            //发送短信异常，删除对应的redis中的验证码
-            redisUtil.remove(phoneCode.getPhoneCodeId());
-            log.error("发送短信注册验证码异常:" + e);
-            throw new IllegalArgumentException("请联系管理员，老师注册短信验证码发送异常:" + e);
-        }
-
-
-
-    }
 
     @Override
     public void addUserVote(UserVoteAddVm vm) {
