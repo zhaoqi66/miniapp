@@ -69,7 +69,7 @@ public class WxMaUserController {
             }else {
                 VoteUser user = new VoteUser();
                 user.setOpenid(session.getOpenid());
-                user.setFree_tickets(1);
+                user.setFreetickets(1);
                 user.setTickets(0);
                 user.setStartTime(new Date());
                 voteUserService.save(user);

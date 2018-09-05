@@ -10,7 +10,7 @@ import java.util.Date;
 
 
 @Entity
-@Table(name = "VoteUser")
+@Table(name = "vote_user")
 @Data
 @Builder
 @NoArgsConstructor
@@ -35,7 +35,7 @@ public class VoteUser {
     private Date endTime;
 
     @Column(name = "free_tickets", columnDefinition = "INT(11) COMMENT'免费票数'")
-    private int free_tickets;
+    private int freetickets;
 
     @Column(name = "tickets", columnDefinition = "INT(4) COMMENT'充值票数'")
     private int tickets;
