@@ -15,9 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
-
 /**
  * UploadFileController
  * <p>
@@ -39,18 +36,10 @@ public class UploadFileController {
 
     @PostMapping("/picture/uploadOne")
     @ApiOperation(value = "单图片上传")
-    public ResponseModel<String> uploadOnePicture(MultipartFile file, HttpServletRequest request) {
+    public ResponseModel<String> uploadOnePicture(MultipartFile file) {
 
 
         logger.info("============>单图片上传 file={}", file);
-        if (request.getCharacterEncoding() == null) {
-            try {
-                request.setCharacterEncoding("UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-        }
-
         String uploadFile = uploadFileService.uploadFile(file);
         return ResponseModels.ok(uploadFile);
     }
