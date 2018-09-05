@@ -7,4 +7,6 @@ public interface VoteUserService {
     public void save(VoteUser user);
 
     int findOneByOpenid(String openid);
+
+    void deleteFreeTicketTask();
 }
