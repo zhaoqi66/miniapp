@@ -11,7 +11,7 @@ import lombok.Data;
  * @date 2018/8/30 10:32
  */
 @Data
-@ApiModel(value = "查询选手详情参数")
+@ApiModel(value = "查询选手详情参数",description = "查询选手详情参数")
 public class UserApplyDetailVm {
 
     @ApiModelProperty(value = "主键id")

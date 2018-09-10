@@ -14,12 +14,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -43,9 +43,9 @@ public class UserApplyController {
     private UserApplyService userApplyService;
 
 
-    @PutMapping("/apply/add")
+    @PostMapping("/apply/add")
     @ApiOperation(value = "我要报名接口")
-    public ResponseModel addUserVote(@RequestBody @Valid UserVoteAddVm vm) {
+    public ResponseModel addUserVote(@RequestBody UserVoteAddVm vm) {
         logger.info("我要报名接口 UserVoteAddVm={}",vm);
         userApplyService.addUserVote(vm);
         return ResponseModels.ok();
@@ -53,7 +53,7 @@ public class UserApplyController {
 
     @GetMapping("/apply/findUserApply")
     @ApiOperation(value = "报名详情接口 和 投票首页 搜索框中 请输入姓名和编号接口")
-    public ResponseModel<List<UserApplyDTO>> getOneVote(UserApplyDetailVm vm) {
+    public ResponseModel<List<UserApplyDTO>> getOneVote(@RequestBody UserApplyDetailVm vm) {
         logger.info("报名详情接口 和 投票首页 搜索框中 请输入姓名和编号接口 UserApplyDetailVm={}",vm);
         List<UserApplyDTO> userApplyDTOS = userApplyService.getOneVote(vm);
         return ResponseModels.ok(userApplyDTOS);
@@ -61,7 +61,7 @@ public class UserApplyController {
 
     @DeleteMapping("/apply/cancel")
     @ApiOperation(value = "取消报名接口")
-    public ResponseModel deleteUserApply(int id) {
+    public ResponseModel deleteUserApply(@RequestParam(name = "id",required = true) int id) {
         logger.info("取消报名接口 id={}",id);
         userApplyService.deleteUserApply(id);
         return ResponseModels.ok();
@@ -83,7 +83,7 @@ public class UserApplyController {
         return ResponseModels.ok(userApplyDTOS);
     }
 
-    @GetMapping("/apply/findActivity ")
+    @GetMapping("/apply/findActivity")
     @ApiOperation(value = "活动规则接口")
     public ResponseModel findActivity() {
         Activity activity = userApplyService.findActivity();

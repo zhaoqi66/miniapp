@@ -43,7 +43,7 @@ public class Activity {
     @Column(name = "end_time", columnDefinition = "DATETIME COMMENT'活动结束时间'")
     private Date endTime;
 
-    @Column(name = "name", columnDefinition = "VARCHAR(1500) COMMENT'活动规则'")
+    @Column(name = "pic", columnDefinition = "VARCHAR(1500) COMMENT'活动规则'")
     private String pic;
 
     @Column(name = "activity_take_count", columnDefinition = "INT(11) COMMENT'活动报名人数'")
@@ -60,6 +60,25 @@ public class Activity {
 
     @Column(name = "modified_time", columnDefinition = "DATETIME COMMENT'活动修改时间'")
     private Date modifiedTime;
+
+    @Column(name = "first_money", columnDefinition = "DECIMAL(8,2) COMMENT'第一档金额'")
+    private double firstMoney;
+
+    @Column(name = "first_ratio", columnDefinition = "INT(8) COMMENT'第一档人气'")
+    private int firstRatio;
+
+    @Column(name = "second_money", columnDefinition = "DECIMAL(8,2) COMMENT'第二档金额'")
+    private double secondMoney;
+
+    @Column(name = "second_ratio", columnDefinition = "INT(8) COMMENT'第二档人气'")
+    private int secondRatio;
+
+    @Column(name = "third_money", columnDefinition = "DECIMAL(8,2) COMMENT'第三档金额'")
+    private double thirdMoney;
+
+    @Column(name = "third_ratio", columnDefinition = "INT(8) COMMENT'第三档人气'")
+    private int thirdRatio;
+
 
 
 }

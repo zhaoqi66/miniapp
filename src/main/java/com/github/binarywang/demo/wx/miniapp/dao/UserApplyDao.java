@@ -21,6 +21,6 @@ public interface UserApplyDao extends JpaSpecificationExecutor<UserApply>,JpaRep
 
     UserApply findByPhone(@Param("phone") String phone);
 
-    List<UserApply> findByNameIsLike(@Param("name") String name);
+    List<UserApply> findByNameLike(@Param("name") String name);
 
 }

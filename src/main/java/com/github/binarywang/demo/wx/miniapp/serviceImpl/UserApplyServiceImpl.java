@@ -5,7 +5,6 @@ import com.github.binarywang.demo.wx.miniapp.controller.vm.UserApplyDetailVm;
 import com.github.binarywang.demo.wx.miniapp.controller.vm.UserVoteAddVm;
 import com.github.binarywang.demo.wx.miniapp.dao.ActivityDao;
 import com.github.binarywang.demo.wx.miniapp.dao.UserApplyDao;
-import com.github.binarywang.demo.wx.miniapp.domain.PhoneCode;
 import com.github.binarywang.demo.wx.miniapp.pojo.Activity;
 import com.github.binarywang.demo.wx.miniapp.pojo.UserApply;
 import com.github.binarywang.demo.wx.miniapp.service.UserApplyService;
@@ -51,14 +50,20 @@ public class UserApplyServiceImpl implements UserApplyService {
         if (userApplyDao.findByPhone(vm.getPhone()) != null) {
             throw new BusinessException("一个手机号只能报名一次，请更换手机号");
         }
-        //验证手机验证码是否正确
-        PhoneCode PhoneCode = (PhoneCode) redisUtil.get("register"+vm.getPhone());
-        if (PhoneCode == null || !vm.getCode().equals(PhoneCode.getCode())) {
-            throw new BusinessException("该手机号对应的短信验证码不存在：已失效或者验证码输入错误！");
-        }
+
         String[] vmPic = vm.getPic();
+        String s=new String();
         if (vmPic.length == 0) {
             throw new BusinessException("请至少上传一张照片");
+        } else {
+            for (int i = 0; i < vmPic.length; i++) {
+                if (i == vmPic.length - 1) {
+                    s = s + vmPic[i];
+                } else {
+
+                    s=s+vmPic[i]+",";
+                }
+            }
         }
 
         UserApply userApply = UserApply.builder()
@@ -68,8 +73,9 @@ public class UserApplyServiceImpl implements UserApplyService {
                 .gerder(vm.getGerder())
                 .openId(vm.getOpenId())
                 .name(vm.getName())
-                .pic(vmPic.toString())
+                .pic(s)
                 .status("0")
+                .phone(vm.getPhone())
                 .totalVotes(0l)
                 .build();
         userApplyDao.save(userApply);
@@ -92,7 +98,7 @@ public class UserApplyServiceImpl implements UserApplyService {
             UserApplyDTO userVoteDTO = new UserApplyDTO(userApply, pics);
             list.add(userVoteDTO);
         } else {
-            List<UserApply> userApplies = userApplyDao.findByNameIsLike(vm.getName());
+            List<UserApply> userApplies = userApplyDao.findByNameLike("%"+vm.getName()+"%");
             if (userApplies.size() > 0) {
                 appliesList(userApplies, list);
             }
@@ -125,7 +131,7 @@ public class UserApplyServiceImpl implements UserApplyService {
         Sort sort = new Sort(Sort.Direction.DESC, "totalVotes");
         List<UserApply> applies = userApplyDao.findAll(sort);
         if (applies.size() > 0) {
-            appliesList(applies,list);
+            appliesList(applies, list);
         }
 
         return list;
@@ -138,7 +144,7 @@ public class UserApplyServiceImpl implements UserApplyService {
         Sort sort = new Sort(Sort.Direction.DESC, "reviewTime");
         List<UserApply> applies = userApplyDao.findAll(sort);
         if (applies.size() > 0) {
-            appliesList(applies,list);
+            appliesList(applies, list);
         }
 
         return list;
@@ -152,7 +158,7 @@ public class UserApplyServiceImpl implements UserApplyService {
     }
 
 
-    private List<UserApplyDTO> appliesList(List<UserApply> applies,List<UserApplyDTO> list) {
+    private List<UserApplyDTO> appliesList(List<UserApply> applies, List<UserApplyDTO> list) {
         for (UserApply apply : applies) {
             String[] pics = apply.getPic().split(",");
             UserApplyDTO userApplyDTO = new UserApplyDTO(apply, pics);

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,7 +37,7 @@ public class UploadFileController {
 
     @PostMapping("/picture/uploadOne")
     @ApiOperation(value = "单图片上传")
-    public ResponseModel<String> uploadOnePicture(MultipartFile file) {
+    public ResponseModel<String> uploadOnePicture(@RequestParam(name = "file",required = true) MultipartFile file) {
 
 
         logger.info("============>单图片上传 file={}", file);
@@ -46,7 +47,7 @@ public class UploadFileController {
 
     @DeleteMapping("/picture/delete")
     @ApiOperation(value = "图片删除")
-    public ResponseModel<String> deletePicture(String fileKey) {
+    public ResponseModel<String> deletePicture(@RequestParam(name = "fileKey",required = true) String fileKey) {
         logger.info("============>图片删除 fileKey={}", fileKey);
         String deletePicture = uploadFileService.deletePicture(fileKey);
         return ResponseModels.ok(deletePicture);
