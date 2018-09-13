@@ -24,6 +24,10 @@ public class VoteOrderAddVm {
     @NotNull(message = "人气数必传")
     private int votePoll;
 
+    @ApiModelProperty(value = "活动id")
+    @NotNull(message = "活动id必传")
+    private int activityId;
+
     @ApiModelProperty(value = "用户的openID")
     @NotNull(message = "用户的openID必填")
     private String openId;

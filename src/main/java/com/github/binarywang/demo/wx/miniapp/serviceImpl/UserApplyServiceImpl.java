@@ -1,7 +1,6 @@
 package com.github.binarywang.demo.wx.miniapp.serviceImpl;
 
 import com.github.binarywang.demo.wx.miniapp.config.BusinessException;
-import com.github.binarywang.demo.wx.miniapp.controller.vm.UserApplyDetailVm;
 import com.github.binarywang.demo.wx.miniapp.controller.vm.UserVoteAddVm;
 import com.github.binarywang.demo.wx.miniapp.dao.ActivityDao;
 import com.github.binarywang.demo.wx.miniapp.dao.UserApplyDao;
@@ -82,13 +81,13 @@ public class UserApplyServiceImpl implements UserApplyService {
     }
 
     @Override
-    public List<UserApplyDTO> getOneVote(UserApplyDetailVm vm) {
+    public List<UserApplyDTO> getOneVote(int id, String name) {
         List<UserApplyDTO> list = new ArrayList<>();
-        if (vm.getName() == null) {
-            if (vm.getId() == 0) {
+        if (name == null) {
+            if (id == 0) {
                 throw new BusinessException("报名id必传");
             }
-            UserApply userApply = userApplyDao.findOne(vm.getId());
+            UserApply userApply = userApplyDao.findOne(id);
             if (userApply == null) {
                 throw new BusinessException("无效的报名Id");
             }
@@ -98,8 +97,9 @@ public class UserApplyServiceImpl implements UserApplyService {
             UserApplyDTO userVoteDTO = new UserApplyDTO(userApply, pics);
             list.add(userVoteDTO);
         } else {
-            List<UserApply> userApplies = userApplyDao.findByNameLike("%"+vm.getName()+"%");
+            List<UserApply> userApplies = userApplyDao.findByNameLike("%"+name+"%");
             if (userApplies.size() > 0) {
+
                 appliesList(userApplies, list);
             }
         }

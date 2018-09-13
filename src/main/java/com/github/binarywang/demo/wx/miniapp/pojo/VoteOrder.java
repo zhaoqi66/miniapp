@@ -56,4 +56,10 @@ public class VoteOrder {
     @Column(name = "order_desc", columnDefinition = "VARCHAR(64) COMMENT'订单描述'")
     private String orderDesc;
 
+    @Column(name = "status", columnDefinition = "VARCHAR(3) COMMENT'支付状态（0-未支付成功，1-支付成功）'")
+    private String status;
+
+    @Column(name = "activity_id", columnDefinition = "INT(11) COMMENT'活动id'")
+    private Integer activityId;
+
 }

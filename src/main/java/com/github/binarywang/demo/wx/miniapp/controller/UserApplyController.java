@@ -2,7 +2,6 @@ package com.github.binarywang.demo.wx.miniapp.controller;
 
 import com.github.binarywang.demo.wx.miniapp.config.ResponseModel;
 import com.github.binarywang.demo.wx.miniapp.config.ResponseModels;
-import com.github.binarywang.demo.wx.miniapp.controller.vm.UserApplyDetailVm;
 import com.github.binarywang.demo.wx.miniapp.controller.vm.UserVoteAddVm;
 import com.github.binarywang.demo.wx.miniapp.pojo.Activity;
 import com.github.binarywang.demo.wx.miniapp.service.UserApplyService;
@@ -53,9 +52,9 @@ public class UserApplyController {
 
     @GetMapping("/apply/findUserApply")
     @ApiOperation(value = "报名详情接口 和 投票首页 搜索框中 请输入姓名和编号接口")
-    public ResponseModel<List<UserApplyDTO>> getOneVote(@RequestBody UserApplyDetailVm vm) {
-        logger.info("报名详情接口 和 投票首页 搜索框中 请输入姓名和编号接口 UserApplyDetailVm={}",vm);
-        List<UserApplyDTO> userApplyDTOS = userApplyService.getOneVote(vm);
+    public ResponseModel<List<UserApplyDTO>> getOneVote(@RequestParam(name = "id",required = false) int id, @RequestParam(name = "name",required = false) String name) {
+        logger.info("报名详情接口 和 投票首页 搜索框中 请输入姓名和编号接口 id={},name={}",id,name);
+        List<UserApplyDTO> userApplyDTOS = userApplyService.getOneVote(id,name);
         return ResponseModels.ok(userApplyDTOS);
     }
 

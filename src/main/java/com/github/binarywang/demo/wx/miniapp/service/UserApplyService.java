@@ -1,6 +1,5 @@
 package com.github.binarywang.demo.wx.miniapp.service;
 
-import com.github.binarywang.demo.wx.miniapp.controller.vm.UserApplyDetailVm;
 import com.github.binarywang.demo.wx.miniapp.controller.vm.UserVoteAddVm;
 import com.github.binarywang.demo.wx.miniapp.pojo.Activity;
 import com.github.binarywang.demo.wx.miniapp.serviceImpl.dto.UserApplyDTO;
@@ -17,7 +16,7 @@ public interface UserApplyService {
 
     void addUserVote(UserVoteAddVm vm);
 
-    List<UserApplyDTO> getOneVote(UserApplyDetailVm vm);
+    List<UserApplyDTO> getOneVote(int id, String name);
 
     void deleteUserApply(int id);
 
@@ -26,4 +25,5 @@ public interface UserApplyService {
     List<UserApplyDTO> findByReviewTime();
 
     Activity findActivity();
+
 }

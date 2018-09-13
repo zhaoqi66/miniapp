@@ -156,6 +156,8 @@ public class VoteUserServiceImpl implements VoteUserService {
                 .orderId(strDate + random)
                 .orderMoney(vm.getOrderMoney())
                 .votePoll(vm.getVotePoll())
+                .status("0")
+                .activityId(vm.getActivityId())
                 .orderDesc(vm.getVotePoll() + "票人气充值")
                 .build();
         VoteOrder order = voteOrderDao.save(voteOrder);
@@ -298,6 +300,7 @@ public class VoteUserServiceImpl implements VoteUserService {
                 VoteOrder voteOrder = voteOrderDao.findByOpenId(openId);
                 if (voteOrder != null) {
                     voteOrder.setTransactionId(transactionId);
+                    voteOrder.setStatus("1");
                     voteOrderDao.save(voteOrder);
                 }
                 VoteUser voteUser = voteUserDao.findByOpenid(openId);
