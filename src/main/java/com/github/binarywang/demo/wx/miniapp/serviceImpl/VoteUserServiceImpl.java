@@ -60,8 +60,8 @@ public class VoteUserServiceImpl implements VoteUserService {
     }
 
     @Override
-    public int findOneByOpenid(String openid) {
-        return voteUserDao.findOneByOpenid(openid);
+    public VoteUser findOneByOpenid(String openid) {
+        return voteUserDao.findByOpenid(openid);
     }
 
     @Override

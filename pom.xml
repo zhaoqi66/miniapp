@@ -126,4 +126,27 @@
             <version>1.8.12.RELEASE</version>
         </dependency>
     </dependencies>
+
+    <build><plugins>
+
+
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <version>1.5.9.RELEASE</version>
+            <configuration>
+                <mainClass>com.github.binarywang.demo.wx.miniapp.WxMaDemoApplication</mainClass>
+                <layout>ZIP</layout>
+            </configuration>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>repackage</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+
+
+    </plugins></build>
 </project>

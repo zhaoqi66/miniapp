@@ -25,7 +25,7 @@ import java.util.Map;
 /**
  * 微信小程序用户接口
  *
- * @author <a href="https://github.com/binarywang">Binary Wang</a>
+ * @author
  */
 @RestController
 @RequestMapping("/wechat/user")
@@ -63,8 +63,8 @@ public class WxMaUserController {
             this.logger.info(session.getOpenid());
 
             //TODO 可以增加自己的逻辑，关联业务相关数据
-            int i =voteUserService.findOneByOpenid(session.getOpenid());
-            if (i !=1){
+            VoteUser voteUser =voteUserService.findOneByOpenid(session.getOpenid());
+            if (voteUser !=null ){
                 return JsonUtils.toJson(session);
             }else {
                 VoteUser user = new VoteUser();
