@@ -42,6 +42,9 @@ public class UserApplyDTO {
     @ApiModelProperty(value = "报名状态")
     private String status;
 
+    @ApiModelProperty(value = "总票数")
+    private long totalVotes;
+
     public UserApplyDTO() {
     }
 
@@ -55,5 +58,6 @@ public class UserApplyDTO {
         this.activityId = userApply.getActivityId();
         this.openId = userApply.getOpenId();
         this.status = userApply.getStatus();
+        this.totalVotes=userApply.getTotalVotes();
     }
 }
