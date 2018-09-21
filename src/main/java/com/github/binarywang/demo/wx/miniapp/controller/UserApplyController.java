@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * UserVoteController
@@ -29,6 +30,8 @@ import java.util.List;
  * api:全部参赛和排名接口 /miniApi/apply/findAllOrRank get
  * api:最新参赛接口 /miniApi/apply/findByReviewTime get
  * api:活动规则接口 /miniApi/apply/findActivity get
+ * api:总报名人数和总人气数 /miniApi/apply/findTotal get
+ *
  * @author juan
  * @date 2018/8/29 15:56
  */
@@ -45,23 +48,23 @@ public class UserApplyController {
     @PostMapping("/apply/add")
     @ApiOperation(value = "我要报名接口")
     public ResponseModel addUserVote(@RequestBody UserVoteAddVm vm) {
-        logger.info("我要报名接口 UserVoteAddVm={}",vm);
+        logger.info("我要报名接口 UserVoteAddVm={}", vm);
         userApplyService.addUserVote(vm);
         return ResponseModels.ok();
     }
 
     @GetMapping("/apply/findUserApply")
     @ApiOperation(value = "报名详情接口 和 投票首页 搜索框中 请输入姓名和编号接口")
-    public ResponseModel<List<UserApplyDTO>> getOneVote(@RequestParam(name = "id",required = false) int id, @RequestParam(name = "name",required = false) String name) {
-        logger.info("报名详情接口 和 投票首页 搜索框中 请输入姓名和编号接口 id={},name={}",id,name);
-        List<UserApplyDTO> userApplyDTOS = userApplyService.getOneVote(id,name);
+    public ResponseModel<List<UserApplyDTO>> getOneVote(@RequestParam(name = "id", required = false) int id, @RequestParam(name = "name", required = false) String name) {
+        logger.info("报名详情接口 和 投票首页 搜索框中 请输入姓名和编号接口 id={},name={}", id, name);
+        List<UserApplyDTO> userApplyDTOS = userApplyService.getOneVote(id, name);
         return ResponseModels.ok(userApplyDTOS);
     }
 
     @DeleteMapping("/apply/cancel")
     @ApiOperation(value = "取消报名接口")
-    public ResponseModel deleteUserApply(@RequestParam(name = "id",required = true) int id) {
-        logger.info("取消报名接口 id={}",id);
+    public ResponseModel deleteUserApply(@RequestParam(name = "id", required = true) int id) {
+        logger.info("取消报名接口 id={}", id);
         userApplyService.deleteUserApply(id);
         return ResponseModels.ok();
     }
@@ -87,6 +90,13 @@ public class UserApplyController {
     public ResponseModel findActivity() {
         Activity activity = userApplyService.findActivity();
         return ResponseModels.ok(activity);
+    }
+
+    @GetMapping("/apply/findTotal")
+    @ApiOperation(value = "总报名人数和总人气数")
+    public ResponseModel findTotal(@RequestParam(name = "activityId", required = true) int activityId) {
+        Map map = userApplyService.findTotal(activityId);
+        return ResponseModels.ok(map);
     }
 
 

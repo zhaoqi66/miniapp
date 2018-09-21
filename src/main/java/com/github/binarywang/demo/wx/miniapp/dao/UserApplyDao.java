@@ -3,6 +3,8 @@ package com.github.binarywang.demo.wx.miniapp.dao;
 import com.github.binarywang.demo.wx.miniapp.pojo.UserApply;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -22,5 +24,13 @@ public interface UserApplyDao extends JpaSpecificationExecutor<UserApply>,JpaRep
     UserApply findByPhone(@Param("phone") String phone);
 
     List<UserApply> findByNameLike(@Param("name") String name);
+
+    long countByActivityId(@Param("activityId") int activityId);
+
+
+
+    List<UserApply> findByActivityId(@Param("activityId") int activityId);
+
+
 
 }

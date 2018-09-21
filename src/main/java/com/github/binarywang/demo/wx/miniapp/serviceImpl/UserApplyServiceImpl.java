@@ -18,7 +18,9 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * UserVoteServiceImpl
@@ -155,6 +157,23 @@ public class UserApplyServiceImpl implements UserApplyService {
         Activity activity = activityDao.findByStatus("0");
 
         return activity;
+    }
+
+    @Override
+    public Map findTotal(int activityId) {
+        long totalUsers = userApplyDao.countByActivityId(activityId);
+        List<UserApply> userApplies = userApplyDao.findByActivityId(activityId);
+        long votes=0l;
+        if (userApplies != null) {
+            for (UserApply userApply : userApplies) {
+                votes=votes+userApply.getTotalVotes();
+            }
+        }
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("totalUsers",totalUsers);
+        map.put("votes",votes);
+
+        return map;
     }
 
 

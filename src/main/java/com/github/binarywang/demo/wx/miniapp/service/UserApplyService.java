@@ -5,6 +5,7 @@ import com.github.binarywang.demo.wx.miniapp.pojo.Activity;
 import com.github.binarywang.demo.wx.miniapp.serviceImpl.dto.UserApplyDTO;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * UserApplyService
@@ -26,4 +27,5 @@ public interface UserApplyService {
 
     Activity findActivity();
 
+    Map findTotal(int activityId);
 }
