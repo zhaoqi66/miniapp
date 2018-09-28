@@ -5,6 +5,7 @@ import com.github.binarywang.demo.wx.miniapp.config.ResponseModels;
 import com.github.binarywang.demo.wx.miniapp.controller.vm.UserVoteAddVm;
 import com.github.binarywang.demo.wx.miniapp.pojo.Activity;
 import com.github.binarywang.demo.wx.miniapp.service.UserApplyService;
+import com.github.binarywang.demo.wx.miniapp.serviceImpl.dto.ActivityDTO;
 import com.github.binarywang.demo.wx.miniapp.serviceImpl.dto.UserApplyDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +26,8 @@ import java.util.Map;
 
 /**
  * UserVoteController
+ *
+ * api:我是否已经报名接口  /miniApi/apply/isApply post
  * api:我要报名接口  /miniApi/apply/add post
  * api:报名详情接口 和 投票首页 搜索框中 请输入姓名和编号接口 /miniApi/apply/findUserApply get
  * api:取消报名接口   /miniApi/apply/cancel delete
@@ -45,7 +49,15 @@ public class UserApplyController {
     private UserApplyService userApplyService;
 
 
-    @PostMapping("/apply/add")
+    @GetMapping("/apply/isApply")
+    @ApiOperation(value = "我是否已经报名接口")
+    public ResponseModel isApply(@RequestParam(name = "openId",required = true)String openId) {
+        logger.info("我是否已经报名接口 openId={}", openId);
+        String applyCode = userApplyService.isApply(openId);
+        return ResponseModels.ok(applyCode);
+    }
+
+    @PutMapping("/apply/add")
     @ApiOperation(value = "我要报名接口")
     public ResponseModel addUserVote(@RequestBody UserVoteAddVm vm) {
         logger.info("我要报名接口 UserVoteAddVm={}", vm);
@@ -55,15 +67,15 @@ public class UserApplyController {
 
     @GetMapping("/apply/findUserApply")
     @ApiOperation(value = "报名详情接口 和 投票首页 搜索框中 请输入姓名和编号接口")
-    public ResponseModel<List<UserApplyDTO>> getOneVote(@RequestParam(name = "id", required = false) int id, @RequestParam(name = "name", required = false) String name) {
-        logger.info("报名详情接口 和 投票首页 搜索框中 请输入姓名和编号接口 id={},name={}", id, name);
-        List<UserApplyDTO> userApplyDTOS = userApplyService.getOneVote(id, name);
+    public ResponseModel<List<UserApplyDTO>> getOneVote(String name,Integer id, String openId) {
+        logger.info("报名详情接口 和 投票首页 搜索框中 请输入姓名和编号接口 id={},name={},openId={}", id, name,openId);
+        List<UserApplyDTO> userApplyDTOS = userApplyService.getOneVote(id, name,openId);
         return ResponseModels.ok(userApplyDTOS);
     }
 
     @DeleteMapping("/apply/cancel")
     @ApiOperation(value = "取消报名接口")
-    public ResponseModel deleteUserApply(@RequestParam(name = "id", required = true) int id) {
+    public ResponseModel deleteUserApply(@RequestParam(name = "id", required = true) Integer id) {
         logger.info("取消报名接口 id={}", id);
         userApplyService.deleteUserApply(id);
         return ResponseModels.ok();
@@ -88,8 +100,8 @@ public class UserApplyController {
     @GetMapping("/apply/findActivity")
     @ApiOperation(value = "活动规则接口")
     public ResponseModel findActivity() {
-        Activity activity = userApplyService.findActivity();
-        return ResponseModels.ok(activity);
+        ActivityDTO activityDTO = userApplyService.findActivity();
+        return ResponseModels.ok(activityDTO);
     }
 
     @GetMapping("/apply/findTotal")

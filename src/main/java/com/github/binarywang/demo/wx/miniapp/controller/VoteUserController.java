@@ -47,8 +47,8 @@ public class VoteUserController {
 
     @GetMapping("/vote/freeVote")
     @ApiOperation(value = "1人气和展示input框中的总票数是同一个接口")
-    public ResponseModel<Map> getFreeVote(@RequestParam(name = "openId", required = true) String openId ) {
-        logger.info("1人气和展示input框中的总票数是同一个接口 openId={}",openId);
+    public ResponseModel<Map> getFreeVote(@RequestParam(name = "openId", required = true) String openId) {
+        logger.info("1人气和展示input框中的总票数是同一个接口 openId={}", openId);
         Map vote = voteUserService.getFreeVote(openId);
         return ResponseModels.ok(vote);
     }
@@ -56,7 +56,7 @@ public class VoteUserController {
     @PostMapping("/vote/clickVote")
     @ApiOperation("投人气按钮接口")
     public ResponseModel clickVote(@RequestBody ClickVoteVm vm) {
-        logger.info("投人气按钮接口 ClickVoteVm={}",vm);
+        logger.info("投人气按钮接口 ClickVoteVm={}", vm);
         voteUserService.clickVote(vm);
         return ResponseModels.ok();
     }
@@ -64,7 +64,7 @@ public class VoteUserController {
     @PutMapping("/vote/voteOrder")
     @ApiOperation(value = "投人气订单生成接口")
     public ResponseModel<Integer> createVoteOrder(@Valid @RequestBody VoteOrderAddVm vm) {
-        logger.info("投人气订单生成接口 VoteOrderAddVm={}",vm);
+        logger.info("投人气订单生成接口 VoteOrderAddVm={}", vm);
         int orderId = voteUserService.createVoteOrder(vm);
         return ResponseModels.ok(orderId);
 
@@ -73,22 +73,20 @@ public class VoteUserController {
     @PostMapping("/vote/payVoteOrder")
     @ApiOperation(value = "充值人气接口接口")
     public ResponseModel payVoteOrder(@RequestParam(name = "orderId", required = true) int orderId, HttpServletRequest request) {
-        logger.info("充值人气接口接口 orderId={}",orderId);
+        logger.info("充值人气接口接口 orderId={}", orderId);
         Map map = voteUserService.payVoteOrder(orderId, request);
         return ResponseModels.ok(map);
 
     }
 
-     @PostMapping("/vote/weiXinNotify")
+    @PostMapping("/vote/weiXinNotify")
     @ApiOperation(value = "支付完成回调接口")
-     public ResponseModel WXPayBack(HttpServletRequest request, HttpServletResponse response) throws IOException, JDOMException {
+    public ResponseModel WXPayBack(HttpServletRequest request, HttpServletResponse response) throws IOException, JDOMException {
         logger.info("支付完成回调接口 ");
         voteUserService.getWXPayBack(response, request);
         return ResponseModels.ok();
 
     }
-
-
 
 
 }

@@ -145,11 +145,11 @@ public class VoteUserServiceImpl implements VoteUserService {
         SimpleDateFormat sfDate = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         String strDate = sfDate.format(new Date());
         //得到17位时间如：20170411094039080
-        log.info("时间17位：strDate={}" + strDate);
+        log.info("时间17位：strDate={}", strDate);
         //为了防止高并发重复,再获取3个随机数
         String random = getRandom620(3);
         //最后得到20位订单编号。
-        log.info("订单号20位：orderId={}" + strDate + random);
+        log.info("订单号20位：orderId={}" , strDate + random);
         VoteOrder voteOrder = VoteOrder.builder()
                 .openId(vm.getOpenId())
                 .createTime(new Date())

@@ -7,6 +7,7 @@ import com.github.binarywang.demo.wx.miniapp.dao.UserApplyDao;
 import com.github.binarywang.demo.wx.miniapp.pojo.Activity;
 import com.github.binarywang.demo.wx.miniapp.pojo.UserApply;
 import com.github.binarywang.demo.wx.miniapp.service.UserApplyService;
+import com.github.binarywang.demo.wx.miniapp.serviceImpl.dto.ActivityDTO;
 import com.github.binarywang.demo.wx.miniapp.serviceImpl.dto.UserApplyDTO;
 import com.github.binarywang.demo.wx.miniapp.utils.AliyunOSSUtil;
 import com.github.binarywang.demo.wx.miniapp.utils.RedisUtil;
@@ -42,14 +43,23 @@ public class UserApplyServiceImpl implements UserApplyService {
     @Autowired
     private ActivityDao activityDao;
 
+
+    @Override
+    public String isApply(String openId) {
+        UserApply userApply = userApplyDao.findByOpenId(openId);
+        if (userApply != null) {
+            return "200";
+        } else {
+            return "500";
+        }
+
+    }
+
     @Override
     public void addUserVote(UserVoteAddVm vm) {
 
         if (userApplyDao.findByOpenId(vm.getOpenId()) != null) {
             throw new BusinessException("一个用户只能报名一次，不能再次报名");
-        }
-        if (userApplyDao.findByPhone(vm.getPhone()) != null) {
-            throw new BusinessException("一个手机号只能报名一次，请更换手机号");
         }
 
         String[] vmPic = vm.getPic();
@@ -83,21 +93,35 @@ public class UserApplyServiceImpl implements UserApplyService {
     }
 
     @Override
-    public List<UserApplyDTO> getOneVote(int id, String name) {
+    public List<UserApplyDTO> getOneVote(Integer id, String name,String openId) {
         List<UserApplyDTO> list = new ArrayList<>();
         if (name == null) {
-            if (id == 0) {
-                throw new BusinessException("报名id必传");
-            }
-            UserApply userApply = userApplyDao.findOne(id);
-            if (userApply == null) {
-                throw new BusinessException("无效的报名Id");
-            }
+            if (openId == null) {
+                if (id == 0) {
+                    throw new BusinessException("报名id必传");
+                }
+                UserApply userApply = userApplyDao.findOne(id);
+                if (userApply == null) {
+                    throw new BusinessException("无效的报名Id");
+                }
 
-            String pic = userApply.getPic();
-            String[] pics = pic.split(",");
-            UserApplyDTO userVoteDTO = new UserApplyDTO(userApply, pics);
-            list.add(userVoteDTO);
+                String pic = userApply.getPic();
+                String[] pics = pic.split(",");
+                UserApplyDTO userVoteDTO = new UserApplyDTO(userApply, pics);
+                list.add(userVoteDTO);
+
+            } else {
+                UserApply userApply = userApplyDao.findByOpenId(openId);
+                if (userApply == null) {
+                    throw new BusinessException("无效的用户openId");
+                }
+
+                String pic = userApply.getPic();
+                String[] pics = pic.split(",");
+                UserApplyDTO userVoteDTO = new UserApplyDTO(userApply, pics);
+                list.add(userVoteDTO);
+
+            }
         } else {
             List<UserApply> userApplies = userApplyDao.findByNameLike("%"+name+"%");
             if (userApplies.size() > 0) {
@@ -109,7 +133,7 @@ public class UserApplyServiceImpl implements UserApplyService {
     }
 
     @Override
-    public void deleteUserApply(int id) {
+    public void deleteUserApply(Integer id) {
         if (id == 0) {
             throw new BusinessException("报名id必传");
         }
@@ -153,10 +177,15 @@ public class UserApplyServiceImpl implements UserApplyService {
     }
 
     @Override
-    public Activity findActivity() {
+    public ActivityDTO findActivity() {
         Activity activity = activityDao.findByStatus("0");
+        ActivityDTO activityDTO =null;
+        if (activity != null) {
 
-        return activity;
+            String[] pics = activity.getPic().split(",");
+            activityDTO = new ActivityDTO(activity, pics);
+        }
+        return activityDTO;
     }
 
     @Override
